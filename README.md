@@ -22,7 +22,7 @@ or
 ### using pip
 - pip install clean_cmake_project
   - import clean_cmake_project.ProjectSkeleton as ccp
-  - ccp.build(name, path)
+  - ccp(name, path)
   
   or
 - installing the package also adds an entrypoint
@@ -34,6 +34,7 @@ or
 - googletest will be cloned in /libs/googletest
 - source files are placed in the /src/ folder - with one sub-folder for each sub-project
 - test files are placed in the /tests/ folder - with one sub-folder for each sub-project
+- (optional) source files for executable in /src/*-exe_suffix/ folder
 
 ##Links
 - The name of the main project is retrieve from the location of the script, it is used for

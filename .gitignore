@@ -1,3 +1,7 @@
 /.idea
 /cmake-build*
 /libs/
+/clean_cmake_project.egg-info/
+/build/
+/docs/build/
+/dist/
