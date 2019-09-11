@@ -2,3 +2,7 @@
 /cmake-build*
 /libs/
 /venv/
+/clean_cmake_project.egg-info/
+/build/
+/docs/build/
+/dist/
