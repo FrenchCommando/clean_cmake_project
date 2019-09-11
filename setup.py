@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="clean_cmake_project",
-    version="0.0.1",
+    version="0.0.2",
     author="FrenchCommando",
     author_email="martialren@gmail.com",
     description="A script to build cmake project for c++ using python",

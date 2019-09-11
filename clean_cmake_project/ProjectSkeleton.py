@@ -199,7 +199,7 @@ class ProjectBuilder:
                             "        {2}.cpp\n"
                             "    )\n"
                             "\n"
-                            "add_executable({0} ${{1}_FILES})\n"
+                            "add_executable({0} ${{{1}_FILES}})\n"
                             "\n"
                             "set_target_properties({0} PROPERTIES ENABLE_EXPORTS 1)\n"
                             "\n"
