@@ -8,6 +8,7 @@ src = "src"
 tests = "tests"
 libs = "libs"
 cmake = "CMakeLists.txt"
+git_folder = ".git"
 host = os.getlogin()
 now = datetime.today().strftime('%Y-%m-%d')
 
@@ -15,12 +16,16 @@ now = datetime.today().strftime('%Y-%m-%d')
 class ProjectBuilder:
     def __init__(self, project_name, path_input, exe_suffix):
 
-        if os.path.exists(path_input):
+        if not path_input:
+            print("No Path input - default to current working directory", os.getcwd())
+            path_input = os.getcwd()
+        elif os.path.exists(path_input):
             print("Path exists !!")
         else:
-            path_input = os.getcwd()
-            print("Path does not exist ! -> default to current directory", path_input)
+            print("Path DOES NOT exists !!", "Creating folder", path_input)
+            os.mkdir(path_input)
 
+        self.cwd = os.getcwd()
         self.path = path_input
         self.base_const = stringcase.constcase(os.path.basename(self.path))
         self.base_snake = stringcase.snakecase(os.path.basename(self.path))
@@ -32,7 +37,7 @@ class ProjectBuilder:
 
         self.create_base()
         self.create_project()
-        if exe_suffix is not None:
+        if exe_suffix:
             exe_project_name = "_".join([stringcase.snakecase(project_name), exe_suffix])
             self.exe_snake = stringcase.snakecase(exe_project_name)
             self.exe_const = stringcase.constcase(exe_project_name)
@@ -51,14 +56,19 @@ class ProjectBuilder:
 
     def create_base(self):
 
+        def init_git():
+            if not os.path.exists(os.path.join(self.path, git_folder)):
+                os.system(f"git init {self.path}")
+
         def download_gtest():
             if not os.path.exists(os.path.join(self.path, libs)):
                 os.mkdir(os.path.join(self.path, libs))
                 if not os.path.exists(os.path.join(self.path, libs, "googletest")):
-                    os.chdir(os.path.join(self.path, libs))
                     gtest_path = "https://github.com/google/googletest.git"
-                    os.system("git clone " + gtest_path)
-                    os.chdir("..")
+                    gtest_folder = os.path.join(libs, "googletest")
+                    os.chdir(self.path)
+                    os.system(f"git submodule add {gtest_path} {gtest_folder}")
+                    os.chdir(self.cwd)
 
         def create_cmake():
             if not os.path.exists(os.path.join(self.path, cmake)):
@@ -74,6 +84,7 @@ class ProjectBuilder:
                 with open(os.path.join(self.path, cmake), "w+") as cmake_file:
                     cmake_file.write(cmake_string)
 
+        init_git()
         create_cmake()
         download_gtest()
         if not os.path.exists(os.path.join(self.path, tests)):
@@ -241,7 +252,7 @@ def main():
     print("Project name from input", name)
     path = input("Enter Folder Path: ")
     print("Path from input", path)
-    exe_suffix = input("Enter Executable suffix (Leave blank if no executable): ")
+    exe_suffix = input("Enter Executable suffix (Leave blank if no executable - typical suffix is \"run\"): ")
     if exe_suffix is not None:
         print("Executable suffix", exe_suffix)
     ProjectBuilder(name, path, exe_suffix)

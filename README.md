@@ -13,11 +13,12 @@ https://github.com/FrenchCommando/clean_cmake_project
 or
 - install the package and call a function
 ### Run the script - Old / Simple version
-- Place the script ProjectSkeleton.py in the main project folder - which may be empty
 - Run the script in cmd
   - The script will prompt a name for the new sub_project
   - Enter the project name and hit Enter
   - You may also enter a path to another folder is you want to create the file in another folder
+  (creates the folder if not exists), otherwise the files will be created in the current working directory and the name of the project is the base name of the current directory
+  - (optional) If you also want to build an executable, you can specify a suffix for it (typically "run").
 
 ### using pip
 - pip install clean_cmake_project
